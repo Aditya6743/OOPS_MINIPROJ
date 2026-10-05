@@ -1,0 +1,81 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package com.bank.model {
+    class Customer {
+        - id : String
+        - name : String
+        + Customer(id, name)
+        + getId() : String
+        + getName() : String
+    }
+
+    class Transaction {
+        - transactionId : String
+        - date : LocalDateTime
+        - type : String
+        - amount : double
+        - description : String
+        + Transaction(...)
+        + getTransactionId() : String
+        + getDate() : LocalDateTime
+        + getType() : String
+        + getAmount() : double
+        + getDescription() : String
+    }
+
+    abstract class Account {
+        - accountNumber : String
+        - balance : double
+        - accountStatus : String
+        - transactions : List<Transaction>
+        + Account(accountNumber, customer, initialBalance)
+        + deposit(amount: double) : void
+        + withdraw(amount: double) : void
+        + {abstract} calculateInterest() : void
+        + {abstract} getAccountType() : String
+    }
+
+    class SavingsAccount {
+        - interestRate : double
+        + SavingsAccount(...)
+        + calculateInterest() : void
+        + getAccountType() : String
+    }
+
+    class CurrentAccount {
+        - overdraftLimit : double
+        + CurrentAccount(...)
+        + withdraw(amount: double) : void
+        + calculateInterest() : void
+        + getAccountType() : String
+    }
+
+    Account -> Customer : "- customer"
+    Account *-- Transaction : "- transactions"
+    SavingsAccount -up-|> Account
+    CurrentAccount -up-|> Account
+}
+
+package com.bank.service {
+    class Bank {
+        - accounts : List<Account>
+        + createSavingsAccount(...) : Account
+        + createCurrentAccount(...) : Account
+        + findAccount(accountNumber: String) : Account
+        + deposit(acc, amount) : void
+        + withdraw(acc, amount) : void
+        + transfer(from, to, amount) : void
+        - saveData() : void
+    }
+
+    class FileManager {
+        + saveAccounts(List<Account>) : void
+        + saveTransactions(List<Account>) : void
+        + loadData(Bank) : void
+    }
+
+    Bank -> FileManager : "uses"
+    Bank o-- Account : "- accounts"
+}
+@enduml
