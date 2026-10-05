@@ -38,8 +38,8 @@ public class App extends Application {
         logoContainer.getChildren().add(logo);
         sidebar.getChildren().add(logoContainer);
         
-        String[] menuItems = {"Dashboard", "Accounts", "Create Account", "Deposit", "Withdraw", "Transfer", "Transactions", "Settings"};
-        String[] icons = {"🏠 ", "👥 ", "🆕 ", "➕ ", "➖ ", "💸 ", "📋 ", "⚙ "};
+        String[] menuItems = {"Dashboard", "Accounts", "Create Account", "Deposit", "Withdraw", "Transfer", "Transactions", "Settings", "About"};
+        String[] icons = {"🏠 ", "👥 ", "🆕 ", "➕ ", "➖ ", "💸 ", "📋 ", "⚙ ", "ℹ "};
         
         for (int i = 0; i < menuItems.length; i++) {
             String item = menuItems[i];
@@ -121,6 +121,7 @@ public class App extends Application {
             case "Transfer": contentArea.getChildren().add(new TransferView(bank).getView()); break;
             case "Transactions": contentArea.getChildren().add(new TransactionsView(bank).getView()); break;
             case "Settings": contentArea.getChildren().add(new SettingsView(bank).getView()); break;
+            case "About": contentArea.getChildren().add(new AboutView().getView()); break;
         }
     }
 

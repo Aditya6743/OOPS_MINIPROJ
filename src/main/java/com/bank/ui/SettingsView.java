@@ -143,22 +143,7 @@ public class SettingsView {
         dataButtons.getChildren().addAll(btnRefresh, btnReset);
         dataCard.getChildren().addAll(dataLocLabel, accFileLabel, txFileLabel, new Label(""), dataButtons);
 
-        // 4. ABOUT BANKLY
-        VBox aboutCard = createCard("About Bankly");
-        
-        Label appName = new Label("Bankly - Modern Banking System");
-        appName.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #1e293b;");
-        
-        Label version = new Label("Version 1.0.0 | Java 21 | JavaFX 21 | Maven");
-        version.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
-        
-        Label description = new Label("Bankly is a JavaFX-based Bank Account Management System developed to demonstrate Object-Oriented Programming concepts including encapsulation, inheritance, abstraction, polymorphism, exception handling, collections, and file persistence.");
-        description.setWrapText(true);
-        description.setStyle("-fx-text-fill: #475569; -fx-font-size: 14px; -fx-line-spacing: 4px;");
-        
-        aboutCard.getChildren().addAll(appName, version, new Label(""), description);
-
-        view.getChildren().addAll(appearanceCard, prefsCard, dataCard, aboutCard);
+        view.getChildren().addAll(appearanceCard, prefsCard, dataCard);
         
         scrollPane = new ScrollPane(view);
         scrollPane.setFitToWidth(true);
