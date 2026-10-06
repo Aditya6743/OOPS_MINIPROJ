@@ -17,68 +17,72 @@ public class DepositView {
     public DepositView(Bank bank) {
         view = new VBox(20);
         
-        VBox card = new VBox(20);
+        view.setAlignment(javafx.geometry.Pos.CENTER);
+        
+        VBox card = new VBox(25);
         card.getStyleClass().add("card");
-        card.setMaxWidth(500);
+        card.setMaxWidth(800);
+        card.setPadding(new Insets(30));
         
         Label title = new Label("Deposit Funds");
         title.getStyleClass().add("section-title");
+        title.setStyle("-fx-font-size: 22px;");
         
-        GridPane form = new GridPane();
-        form.setHgap(15);
-        form.setVgap(20);
+        VBox form = new VBox(20);
         
-        Label accLabel = new Label("Account Number:");
+        VBox accGroup = new VBox(8);
+        Label accLabel = new Label("Account Number");
         accLabel.getStyleClass().add("label-text");
         TextField accField = new TextField();
         accField.getStyleClass().add("text-field");
         accField.setPromptText("Enter account number");
+        accGroup.getChildren().addAll(accLabel, accField);
         
-        Label amountLabel = new Label("Amount (₹):");
+        VBox amountGroup = new VBox(8);
+        Label amountLabel = new Label("Amount (₹)");
         amountLabel.getStyleClass().add("label-text");
         TextField amountField = new TextField();
         amountField.getStyleClass().add("text-field");
         amountField.setPromptText("Enter amount to deposit");
+        amountGroup.getChildren().addAll(amountLabel, amountField);
         
         Button depositBtn = new Button("Confirm Deposit");
         depositBtn.getStyleClass().addAll("btn", "btn-success");
-        depositBtn.setPrefWidth(150);
+        depositBtn.setMaxWidth(Double.MAX_VALUE);
+        depositBtn.setStyle("-fx-padding: 12 20; -fx-font-size: 15px;");
+        
+        Label statusLabel = new Label();
+        statusLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5 0 0 0;");
+        statusLabel.setWrapText(true);
+        statusLabel.setMaxWidth(Double.MAX_VALUE);
         
         depositBtn.setOnAction(e -> {
             try {
                 String acc = accField.getText();
                 if (acc == null || acc.trim().isEmpty()) {
-                    showAlert(Alert.AlertType.ERROR, "Error", "Account number cannot be empty.");
+                    statusLabel.setText("Error: Account number cannot be empty.");
+                    statusLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
                     return;
                 }
                 double amt = Double.parseDouble(amountField.getText());
                 bank.deposit(acc, amt);
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Deposit successful!");
+                statusLabel.setText("Success: Deposit successful!");
+                statusLabel.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;");
                 accField.clear();
                 amountField.clear();
             } catch (NumberFormatException ex) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Invalid amount format.");
+                statusLabel.setText("Error: Invalid amount format.");
+                statusLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
             } catch (Exception ex) {
-                showAlert(Alert.AlertType.ERROR, "Error", ex.getMessage());
+                statusLabel.setText("Error: " + ex.getMessage());
+                statusLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
             }
         });
         
-        form.add(accLabel, 0, 0);
-        form.add(accField, 1, 0);
-        form.add(amountLabel, 0, 1);
-        form.add(amountField, 1, 1);
-        form.add(depositBtn, 1, 2);
+        form.getChildren().addAll(accGroup, amountGroup, depositBtn, statusLabel);
         
         card.getChildren().addAll(title, form);
         view.getChildren().add(card);
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String msg) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 
     public VBox getView() {

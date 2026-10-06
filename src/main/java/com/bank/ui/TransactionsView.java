@@ -27,6 +27,10 @@ public class TransactionsView {
         
         TableView<Transaction> table = new TableView<>();
         
+        TableColumn<Transaction, String> accNumCol = new TableColumn<>("Account Number");
+        accNumCol.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));
+        accNumCol.setPrefWidth(130);
+        
         TableColumn<Transaction, String> typeCol = new TableColumn<>("Type");
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeCol.setPrefWidth(120);
@@ -36,9 +40,14 @@ public class TransactionsView {
             new SimpleStringProperty(String.format("₹%,.2f", cellData.getValue().getAmount())));
         amountCol.setPrefWidth(120);
         
+        TableColumn<Transaction, String> balanceCol = new TableColumn<>("Balance After");
+        balanceCol.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(String.format("₹%,.2f", cellData.getValue().getBalanceAfter())));
+        balanceCol.setPrefWidth(130);
+        
         TableColumn<Transaction, String> descCol = new TableColumn<>("Source/Destination");
         descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-        descCol.setPrefWidth(200);
+        descCol.setPrefWidth(180);
 
         TableColumn<Transaction, String> dateCol = new TableColumn<>("Timestamp");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss");
@@ -48,9 +57,9 @@ public class TransactionsView {
         
         TableColumn<Transaction, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(cellData -> new SimpleStringProperty("Completed"));
-        statusCol.setPrefWidth(100);
+        statusCol.setPrefWidth(90);
         
-        table.getColumns().addAll(typeCol, amountCol, descCol, dateCol, statusCol);
+        table.getColumns().addAll(accNumCol, typeCol, amountCol, balanceCol, descCol, dateCol, statusCol);
         table.setItems(FXCollections.observableArrayList(bank.getAllTransactions()));
         table.setPrefHeight(450);
         javafx.scene.layout.VBox.setVgrow(table, javafx.scene.layout.Priority.ALWAYS);

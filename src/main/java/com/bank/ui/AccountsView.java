@@ -24,6 +24,9 @@ public class AccountsView {
         Label title = new Label("All Accounts");
         title.getStyleClass().add("section-title");
         
+        Label statusLabel = new Label("");
+        statusLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold; -fx-padding: 0 0 0 15;");
+        
         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
         javafx.scene.layout.HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
         
@@ -31,7 +34,7 @@ public class AccountsView {
         createBtn.getStyleClass().addAll("btn", "btn-primary");
         createBtn.setOnAction(e -> navigation.accept("Create Account"));
         
-        header.getChildren().addAll(title, spacer, createBtn);
+        header.getChildren().addAll(title, statusLabel, spacer, createBtn);
         
         TableView<Account> table = new TableView<>();
         
@@ -58,6 +61,43 @@ public class AccountsView {
         statusCol.setPrefWidth(100);
         
         table.getColumns().addAll(accNoCol, customerCol, typeCol, balanceCol, statusCol);
+        
+        table.setRowFactory(tv -> {
+            javafx.scene.control.TableRow<Account> row = new javafx.scene.control.TableRow<>();
+            
+            javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
+            javafx.scene.control.MenuItem copyItem = new javafx.scene.control.MenuItem("Copy Account Number");
+            copyItem.setOnAction(event -> {
+                Account acc = row.getItem();
+                if (acc != null) {
+                    javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
+                    javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+                    content.putString(acc.getAccountNumber());
+                    clipboard.setContent(content);
+                    statusLabel.setText("Copied: " + acc.getAccountNumber());
+                }
+            });
+            contextMenu.getItems().add(copyItem);
+            
+            row.contextMenuProperty().bind(
+                javafx.beans.binding.Bindings.when(row.emptyProperty())
+                .then((javafx.scene.control.ContextMenu) null)
+                .otherwise(contextMenu)
+            );
+            
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Account acc = row.getItem();
+                    javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
+                    javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+                    content.putString(acc.getAccountNumber());
+                    clipboard.setContent(content);
+                    statusLabel.setText("Copied: " + acc.getAccountNumber());
+                }
+            });
+            return row;
+        });
+        
         table.setItems(FXCollections.observableArrayList(bank.getAllAccounts()));
         table.setPrefHeight(450);
         javafx.scene.layout.VBox.setVgrow(table, javafx.scene.layout.Priority.ALWAYS);

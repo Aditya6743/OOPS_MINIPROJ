@@ -16,7 +16,7 @@ public class SavingsAccount extends Account {
     public void calculateInterest() {
         double interest = getBalance() * (interestRate / 100.0);
         setBalance(getBalance() + interest);
-        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Interest", interest, "Interest Added"));
+        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Interest", interest, "Interest Added", getAccountNumber(), getBalance()));
     }
     
     @Override

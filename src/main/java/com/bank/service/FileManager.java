@@ -58,7 +58,8 @@ public class FileManager {
                             t.getType(),
                             String.valueOf(t.getAmount()),
                             t.getDescription().replace(",", ";"),
-                            acc.getAccountNumber()
+                            t.getAccountNumber(),
+                            String.valueOf(t.getBalanceAfter())
                     ));
                 }
             }
@@ -114,7 +115,7 @@ public class FileManager {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split(",", -1);
-                    if (parts.length >= 6) {
+                    if (parts.length >= 7) {
                         try {
                             String txId = parts[0];
                             LocalDateTime date = LocalDateTime.parse(parts[1]);
@@ -122,8 +123,9 @@ public class FileManager {
                             double amount = Double.parseDouble(parts[3]);
                             String desc = parts[4];
                             String accNum = parts[5];
+                            double balanceAfter = Double.parseDouble(parts[6]);
 
-                            Transaction tx = new Transaction(txId, date, type, amount, desc);
+                            Transaction tx = new Transaction(txId, date, type, amount, desc, accNum, balanceAfter);
                             try {
                                 Account acc = bank.findAccount(accNum);
                                 acc.addTransactionToHistory(tx);

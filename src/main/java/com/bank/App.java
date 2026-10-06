@@ -97,6 +97,8 @@ public class App extends Application {
         stage.show();
     }
 
+    private Map<String, javafx.scene.Node> cachedViews = new HashMap<>();
+
     public void switchView(String viewName) {
         headerTitle.setText(viewName);
         
@@ -113,15 +115,39 @@ public class App extends Application {
 
         contentArea.getChildren().clear();
         switch (viewName) {
-            case "Dashboard": contentArea.getChildren().add(new DashboardView(bank, this::switchView).getView()); break;
-            case "Accounts": contentArea.getChildren().add(new AccountsView(bank, this::switchView).getView()); break;
-            case "Create Account": contentArea.getChildren().add(new CreateAccountView(bank, this::switchView).getView()); break;
-            case "Deposit": contentArea.getChildren().add(new DepositView(bank).getView()); break;
-            case "Withdraw": contentArea.getChildren().add(new WithdrawView(bank).getView()); break;
-            case "Transfer": contentArea.getChildren().add(new TransferView(bank).getView()); break;
-            case "Transactions": contentArea.getChildren().add(new TransactionsView(bank).getView()); break;
-            case "Settings": contentArea.getChildren().add(new SettingsView(bank).getView()); break;
-            case "About": contentArea.getChildren().add(new AboutView().getView()); break;
+            case "Dashboard": 
+                contentArea.getChildren().add(new DashboardView(bank, this::switchView).getView()); 
+                break;
+            case "Accounts": 
+                contentArea.getChildren().add(new AccountsView(bank, this::switchView).getView()); 
+                break;
+            case "Transactions": 
+                contentArea.getChildren().add(new TransactionsView(bank).getView()); 
+                break;
+            case "Create Account":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new CreateAccountView(bank, this::switchView).getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
+            case "Deposit":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new DepositView(bank).getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
+            case "Withdraw":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new WithdrawView(bank).getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
+            case "Transfer":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new TransferView(bank).getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
+            case "Settings":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new SettingsView(bank).getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
+            case "About":
+                if (!cachedViews.containsKey(viewName)) cachedViews.put(viewName, new AboutView().getView());
+                contentArea.getChildren().add(cachedViews.get(viewName));
+                break;
         }
     }
 

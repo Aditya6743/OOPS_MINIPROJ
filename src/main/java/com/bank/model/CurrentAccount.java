@@ -23,7 +23,7 @@ public class CurrentAccount extends Account {
             throw new InsufficientBalanceException("Overdraft limit exceeded.");
         }
         setBalance(getBalance() - amount);
-        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Withdrawal", amount, "Cash Withdrawal"));
+        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Withdrawal", amount, "Cash Withdrawal", getAccountNumber(), getBalance()));
     }
     
     @Override

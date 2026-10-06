@@ -120,8 +120,8 @@ public class Bank {
         src.removeLastTransaction();
         dest.removeLastTransaction();
         
-        src.addTransactionToHistory(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Transfer Out", amount, "To " + toAccount));
-        dest.addTransactionToHistory(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Transfer In", amount, "From " + fromAccount));
+        src.addTransactionToHistory(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Transfer Out", amount, "To " + toAccount, src.getAccountNumber(), src.getBalance()));
+        dest.addTransactionToHistory(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Transfer In", amount, "From " + fromAccount, dest.getAccountNumber(), dest.getBalance()));
         
         saveData();
     }

@@ -20,7 +20,7 @@ public abstract class Account {
         this.transactions = new ArrayList<>();
         this.accountStatus = "Active";
         if (initialBalance > 0) {
-            addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Deposit", initialBalance, "Initial Deposit"));
+            addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Deposit", initialBalance, "Initial Deposit", this.accountNumber, this.balance));
         }
     }
     
@@ -41,7 +41,7 @@ public abstract class Account {
             throw new InvalidAmountException("Deposit amount must be positive.");
         }
         this.balance += amount;
-        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Deposit", amount, "Cash Deposit"));
+        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Deposit", amount, "Cash Deposit", this.accountNumber, this.balance));
     }
     
     public void withdraw(double amount) throws InvalidAmountException, InsufficientBalanceException {
@@ -52,7 +52,7 @@ public abstract class Account {
             throw new InsufficientBalanceException("Insufficient balance for withdrawal.");
         }
         this.balance -= amount;
-        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Withdrawal", amount, "Cash Withdrawal"));
+        addTransaction(new Transaction(UUID.randomUUID().toString(), LocalDateTime.now(), "Withdrawal", amount, "Cash Withdrawal", this.accountNumber, this.balance));
     }
     
     protected void addTransaction(Transaction transaction) {

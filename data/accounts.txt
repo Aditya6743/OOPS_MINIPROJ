@@ -1,11 +1,13 @@
 1001,Savings,C001,Aarav Sharma,42500.0,4.0
 1002,Savings,C002,Priya Mehta,78200.0,4.0
 1003,Current,C003,Rohan Verma,124750.0,5000.0
-1004,Savings,C004,Ananya Singh,31600.0,4.0
+1004,Savings,C004,Ananya Singh,56600.0,4.0
 1005,Current,C005,Karan Malhotra,215300.0,10000.0
 1006,Savings,C006,Neha Kapoor,56450.0,4.0
 1007,Savings,C007,Rahul Gupta,18900.0,4.0
 1008,Current,C008,Sneha Agarwal,94800.0,5000.0
 1009,Savings,C009,Arjun Patel,63250.0,4.0
-1010,Savings,C010,Ishita Rao,27400.0,4.0
-1070e0e3df,Savings,C6777,Aditya,20000.0,4.0
+1010,Savings,C010,Ishita Rao,29400.0,4.0
+1070e0e3df,Savings,C6777,Aditya,2036500.0,4.0
+10ddf4b8cf,Savings,C1111,New,15000.0,4.0
+20d1338864,Current,C0007,himasnshu poonia,9.999998499999E12,2000.0
